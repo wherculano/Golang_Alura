@@ -36,14 +36,24 @@ func main(){
 	var command int
 	fmt.Scan(&command)
 
-	if command == 1 {
-		fmt.Println("Starting monitoring...")
-	} else if command == 2 {
-		fmt.Println("Showing logs...")
-	} else if command == 3 {
-		fmt.Println("Exiting...")
-	} else {
-		fmt.Printf("%d: Invalid command!", &command)
-	}
+	// if command == 1 {
+	// 	fmt.Println("Starting monitoring...")
+	// } else if command == 2 {
+	// 	fmt.Println("Showing logs...")
+	// } else if command == 3 {
+	// 	fmt.Println("Exiting...")
+	// } else {
+	// 	fmt.Printf("%d: Invalid command!", &command)
+	// }
 
+	switch command{
+	case 1:
+		fmt.Println("Starting monitoring...")
+	case 2:
+		fmt.Println("Showing logs...")
+	case 3:
+		fmt.Println("Exiting...")
+	default:
+		fmt.Println("Invalid command!")
+	}
 }
