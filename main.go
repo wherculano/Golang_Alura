@@ -1,10 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"reflect"
+	"strings"
 	"time"
 )
 
@@ -87,13 +91,8 @@ func readCommand() int {
 
 func monitoringWebsite() {
 	fmt.Println("Starting monitoring...")
-
-	// websites := [3]string
-	websites := []string{
-		"https://random-status-code.herokuapp.com/",
-		"https://www.alura.com.br",
-		"https://www.caelum.com.br",
-	}
+	
+	websites := getWebSitesFromAFile()
 
 	websites = append(websites, "https://www.udemy.com")
 
@@ -110,11 +109,43 @@ func monitoringWebsite() {
 }
 
 func testingWebSite(site string) {
-	req, _ := http.Get(site)
+	req, err := http.Get(site)
 
+	if err != nil {
+		fmt.Println("Erro:", err)
+	}
+	
 	if req.StatusCode == 200 {
 		fmt.Println("The website", site, "is ok")
 	} else {
 		fmt.Println("The website", site, "is out. Status Code:", req.StatusCode)
 	}
+}
+
+func getWebSitesFromAFile()[]string{
+	var urls []string
+
+	// file, err := ioutil.ReadFile("websites.txt") // reads and shows the whole file
+	file, err := os.Open("websites.txt")
+
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	reader := bufio.NewReader(file)
+	
+	for {
+		line, err := reader.ReadString('\n')
+		line = strings.TrimSpace(line)
+		
+		urls = append(urls, line)
+
+		if err == io.EOF{
+			break 
+		}
+	}
+
+	file.Close()
+
+	return urls
 }
