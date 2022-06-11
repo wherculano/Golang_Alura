@@ -5,7 +5,11 @@ import (
 	"net/http"
 	"os"
 	"reflect"
+	"time"
 )
+
+const MONITORAMENTOS = 2
+const DELAY =  5
 
 func main() {
 
@@ -93,11 +97,15 @@ func monitoringWebsite() {
 
 	websites = append(websites, "https://www.udemy.com")
 
-	// for url := 0; url < len(websites); url ++{
-	for i, url := range websites {
-		fmt.Println("\nChecking website with ID number", i)
-		testingWebSite(url)
+	for i := 0; i < MONITORAMENTOS; i++{
+		// for url := 0; url < len(websites); url ++{
+		for i, url := range websites {
+			fmt.Println("\nChecking website with ID number", i)
+			testingWebSite(url)
+		}
+		time.Sleep(DELAY * time.Second)
 	}
+	
 
 }
 
