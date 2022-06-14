@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -117,8 +117,10 @@ func testingWebSite(site string) {
 	
 	if req.StatusCode == 200 {
 		fmt.Println("The website", site, "is ok")
+		createLog(site, true)
 	} else {
 		fmt.Println("The website", site, "is out. Status Code:", req.StatusCode)
+		createLog(site, false)
 	}
 }
 
@@ -149,3 +151,18 @@ func getWebSitesFromAFile()[]string{
 
 	return urls
 }
+
+
+func createLog(website string, status bool){
+	file, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	
+	file.WriteString(time.Now().Format("02/01/2006 15:04:04") + "-" + website + "- online:" + strconv.FormatBool(status)+"\n")
+	file.Close()
+}
+
+// Date/Time documentation
+// https://go.dev/src/time/format.go 
