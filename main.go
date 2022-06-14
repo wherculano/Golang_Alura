@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"reflect"
@@ -36,6 +37,7 @@ func main() {
 			monitoringWebsite()
 		case 2:
 			fmt.Println("Showing logs...")
+			getLog()
 		case 3:
 			greetings(true)
 		case 0:
@@ -104,8 +106,6 @@ func monitoringWebsite() {
 		}
 		time.Sleep(DELAY * time.Second)
 	}
-	
-
 }
 
 func testingWebSite(site string) {
@@ -159,10 +159,17 @@ func createLog(website string, status bool){
 	if err != nil {
 		fmt.Println(err)
 	}
-	
-	file.WriteString(time.Now().Format("02/01/2006 15:04:04") + "-" + website + "- online:" + strconv.FormatBool(status)+"\n")
+	// Date/Time documentation
+	// https://go.dev/src/time/format.go 
+	file.WriteString(time.Now().Format("02/01/2006 15:04:04") + " - " + website + " - online: " + strconv.FormatBool(status)+"\n")
 	file.Close()
 }
 
-// Date/Time documentation
-// https://go.dev/src/time/format.go 
+func getLog(){
+	file, err := ioutil.ReadFile("log.txt")
+
+	if err != nil{
+		fmt.Println(err)
+	}
+	fmt.Println(string(file))
+}
