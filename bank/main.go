@@ -10,13 +10,23 @@ type CheckingAccount struct{
 }
 
 
-func (c *CheckingAccount) Withdraw(value float64)string {
+func (c *CheckingAccount) Withdraw(value float64)(string, bool ){
 	allowedWithdrawal := value > 0 && value <= c.balance 
 	if allowedWithdrawal{
 		c.balance -= value
-		return "Withdrawal successful."
+		return "Withdrawal successful.", true
 	}else {
-		return "Insufficient balance or invalid value."
+		return "Insufficient balance or invalid value.", false
+	}
+}
+
+
+func (c *CheckingAccount) Deposit(value float64)(string, float64){
+	if value > 0 {
+		c.balance += value
+		return "Deposit successful.", c.balance
+	}else {
+		return "Invalid value.", c.balance
 	}
 }
 
@@ -44,5 +54,11 @@ func main(){
 	fmt.Println(matheus)
 	fmt.Println(*danielle)
 
-	fmt.Println(wagner.Withdraw(-10))
+	message, status_withdraw :=  wagner.Withdraw(-10)
+	fmt.Println("Wagner ->", message, "Status:", status_withdraw)
+
+	status_deposit, new_balance := matheus.Deposit(1000)
+	fmt.Println("Matheus ->", status_deposit, "Balance:", new_balance)
+
+	
 }
