@@ -1,28 +1,30 @@
 package main
 
 import (
-	"fmt"
 	"Alura/bank/accounts"
 	"Alura/bank/clients"
+	"fmt"
 )
 
-
-func main(){
+func main() {
 	wagner := accounts.CheckingAccount{
 		Owner: clients.Owner{
-			Name:"Wagner Herculano",
-			CPF:"123.456.789-10",
-			Occupation:"Developer",
-		}, 
-		AgencyNumber: 012, 
+			Name:       "Wagner Herculano",
+			CPF:        "123.456.789-10",
+			Occupation: "Developer",
+		},
+		AgencyNumber:  012,
 		AccountNumber: 3456,
-		Balance: 10720,
 	}
+	wagner.Deposit(10720)
 
 	matheus := clients.Owner{"Matheus", "987.654.321-01", "Student"}
 	matheusAccount := accounts.CheckingAccount{
-		matheus,
-		123, 4567, 10531.0}
+		Owner:         matheus,
+		AgencyNumber:  123,
+		AccountNumber: 4567,
+	}
+	matheusAccount.Deposit(10531.0)
 
 	var danielleAccount *accounts.CheckingAccount
 	danielleAccount = new(accounts.CheckingAccount)
@@ -30,7 +32,7 @@ func main(){
 	danielleAccount.Owner = danielle
 	danielleAccount.AgencyNumber = 321
 	danielleAccount.AccountNumber = 7890
-	danielleAccount.Balance = 4852
+	danielleAccount.Deposit(4852)
 	// when comparing values using this way above (x == y) we need to use pointers (*x == y*)
 	// otherwise the address will be compared (&x == &y)
 
@@ -38,7 +40,7 @@ func main(){
 	fmt.Println(matheusAccount)
 	fmt.Println(*danielleAccount)
 
-	message, status_withdraw :=  wagner.Withdraw(-10)
+	message, status_withdraw := wagner.Withdraw(-10)
 	fmt.Println("Wagner ->", message, "Status:", status_withdraw)
 
 	status_deposit, new_balance := matheusAccount.Deposit(1000)
@@ -47,4 +49,5 @@ func main(){
 	fmt.Println(danielleAccount.Transfer(852, &wagner))
 	fmt.Println(wagner)
 	fmt.Println(*danielleAccount)
+	fmt.Println(danielleAccount.GetBalance())
 }

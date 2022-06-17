@@ -7,27 +7,27 @@ type CheckingAccount struct{
 	Owner clients.Owner
 	AgencyNumber int
 	AccountNumber int
-	Balance float64
+	balance float64
 }
 
 
 func (c *CheckingAccount) Withdraw(value float64)(string, bool ){
-	allowedWithdrawal := value > 0 && value <= c.Balance 
+	allowedWithdrawal := value > 0 && value <= c.balance 
 	if allowedWithdrawal{
-		c.Balance -= value
+		c.balance -= value
 		return "Withdrawal successful.", true
 	}else {
-		return "Insufficient Balance or invalid value.", false
+		return "Insufficient balance or invalid value.", false
 	}
 }
 
 
 func (c *CheckingAccount) Deposit(value float64)(string, float64){
 	if value > 0 {
-		c.Balance += value
-		return "Deposit successful.", c.Balance
+		c.balance += value
+		return "Deposit successful.", c.balance
 	}else {
-		return "Invalid value.", c.Balance
+		return "Invalid value.", c.balance
 	}
 }
 
@@ -41,4 +41,9 @@ func (c *CheckingAccount) Transfer(value float64, destinationAccount *CheckingAc
 	}else {
 		return "Something went wrong"
 	}
+}
+
+
+func (c *CheckingAccount) GetBalance()float64{
+	return c.balance
 }
