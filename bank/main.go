@@ -31,6 +31,18 @@ func (c *CheckingAccount) Deposit(value float64)(string, float64){
 }
 
 
+func (c *CheckingAccount) Transfer(value float64, destinationAccount *CheckingAccount)string{
+	_, withdrawalSuccessful := c.Withdraw(value)
+	
+	if withdrawalSuccessful {
+		destinationAccount.Deposit(value)
+		return "Transference successful"
+	}else {
+		return "Something went wrong"
+	}
+}
+
+
 func main(){
 	wagner := CheckingAccount{
 		owner: "Wagner Herculano", 
@@ -60,5 +72,7 @@ func main(){
 	status_deposit, new_balance := matheus.Deposit(1000)
 	fmt.Println("Matheus ->", status_deposit, "Balance:", new_balance)
 
-	
+	fmt.Println(danielle.Transfer(852, &wagner))
+	fmt.Println(wagner)
+	fmt.Println(*danielle)
 }
