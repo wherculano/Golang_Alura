@@ -6,6 +6,17 @@ import (
 	"fmt"
 )
 
+
+func PayBankSlip(account verifyAccount, value float64){
+	account.Withdraw(value)
+}
+
+
+type verifyAccount interface{
+	Withdraw(value float64)(string, bool)
+}
+
+
 func main() {
 	wagner := accounts.CheckingAccount{
 		Owner: clients.Owner{
@@ -56,5 +67,17 @@ func main() {
 	joaoAccount.Deposit(1000)
 	fmt.Println(joaoAccount)
 	fmt.Println(joaoAccount.Withdraw(987))
+	fmt.Println("Saldo Joao:", joaoAccount.GetBalance())
+
+	PayBankSlip(&joaoAccount, 13)
 	fmt.Println(joaoAccount.GetBalance())
+
+	fmt.Println("Saldo Danielle:", danielleAccount.GetBalance())
+	PayBankSlip(danielleAccount, 100)
+	fmt.Println(danielleAccount.GetBalance())
+
+	fmt.Println("Saldo Wagner:", wagner.GetBalance())
+	PayBankSlip(&wagner, 100)
+	fmt.Println(wagner.GetBalance())
+
 }
