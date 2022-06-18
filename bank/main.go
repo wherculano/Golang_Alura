@@ -50,4 +50,11 @@ func main() {
 	fmt.Println(wagner)
 	fmt.Println(*danielleAccount)
 	fmt.Println(danielleAccount.GetBalance())
+
+	joao := clients.Owner{Name: "João", CPF: "321.654.987-00", Occupation: "bricklayer"}
+	joaoAccount := accounts.SavingAccount{Owner: joao, NumberAccount: 753, NumberAgency: 159}
+	joaoAccount.Deposit(1000)
+	fmt.Println(joaoAccount)
+	fmt.Println(joaoAccount.Withdraw(987))
+	fmt.Println(joaoAccount.GetBalance())
 }
