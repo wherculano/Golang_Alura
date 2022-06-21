@@ -3,3 +3,6 @@
 * [Introdução Go](https://cursos.alura.com.br/course/golang)
 
 * [Go - Orientado a Objetos](https://cursos.alura.com.br/course/go-lang-oo/task/61148)
+
+* [Go - Criação de uma Aplicação Web](https://cursos.alura.com.br/course/go-lang-web)
+
