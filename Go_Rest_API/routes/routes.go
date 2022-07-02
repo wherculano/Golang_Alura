@@ -13,5 +13,6 @@ func HandleRequest() {
 	new_router.HandleFunc("/", controllers.Home)
 	new_router.HandleFunc("/api/personalities", controllers.GetAllPersonalities).Methods("Get")
 	new_router.HandleFunc("/api/personalities/{id}", controllers.GetPersonality).Methods("Get")
+	new_router.HandleFunc("/api/personalities", controllers.CreatePersonality).Methods("Post")
 	log.Fatal(http.ListenAndServe(":8000", new_router))
 }
