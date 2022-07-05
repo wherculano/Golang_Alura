@@ -28,3 +28,10 @@
     - Database connection;
     - CRUD using GORM;
     - Middleware and frontend integration.
+* [Go - Developing a Rest API with Gin](https://cursos.alura.com.br/course/go-gin-api-rest-simplicidade)
+  * In this section was created a [Rest API with Gin]() and I learned about:
+    - Gin Framework;
+    - Modularizing the code, models and database;
+    - Struct, Database, GORM and Docker;
+    - HTTP routes;
+    - CRUD (Create, Retrieve, Update and Delete) 
