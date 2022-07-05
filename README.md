@@ -22,7 +22,7 @@
       - MVC;
       - HTML, JS, Bootstrap.
 * [Go - Developing a Rest API](https://cursos.alura.com.br/course/go-desenvolvendo-api-rest/)
-  * In this section was created a [Rest API project]() and I learned about:
+  * In this section was created a [Rest API project](https://github.com/wherculano/Golang_Alura/tree/main/Go_Rest_API) and I learned about:
     - Json, Request, Response and Go;
     - Router, resources by ID and Docker;
     - Database connection;
