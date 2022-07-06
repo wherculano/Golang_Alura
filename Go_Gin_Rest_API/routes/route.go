@@ -9,5 +9,6 @@ import (
 func HandlerRequests() {
 	req := gin.Default()
 	req.GET("/students", controllers.GetAllStudents)
+	req.GET("/:name", controllers.Greeting)
 	req.Run()
 }
