@@ -9,7 +9,9 @@ import (
 )
 
 func GetAllStudents(c *gin.Context) {
-	c.JSON(200, models.Students)
+	var students []models.Student
+	database.DB.Find(&students)
+	c.JSON(200, students)
 }
 
 func Greeting(c *gin.Context) {
@@ -21,11 +23,9 @@ func Greeting(c *gin.Context) {
 
 func CreateNewStudent(c *gin.Context) {
 	var student models.Student
-	err := c.ShouldBindJSON(&student)
-	if err != nil {
+	if err := c.ShouldBindJSON(&student); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+			"error": err.Error()})
 		return
 	}
 	database.DB.Create(&student)
