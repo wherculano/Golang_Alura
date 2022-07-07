@@ -11,5 +11,6 @@ func HandlerRequests() {
 	req.GET("/students", controllers.GetAllStudents)
 	req.GET("/:name", controllers.Greeting)
 	req.POST("/students", controllers.CreateNewStudent)
+	req.GET("/students/:id", controllers.GetStudentById)
 	req.Run()
 }

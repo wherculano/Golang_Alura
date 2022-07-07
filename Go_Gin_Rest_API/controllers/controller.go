@@ -31,3 +31,16 @@ func CreateNewStudent(c *gin.Context) {
 	database.DB.Create(&student)
 	c.JSON(http.StatusOK, student)
 }
+
+func GetStudentById(c *gin.Context) {
+	var student models.Student
+	id := c.Params.ByName("id")
+	database.DB.First(&student, id)
+
+	if student.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Student not found"})
+		return
+	}
+	c.JSON(http.StatusOK, student)
+}
