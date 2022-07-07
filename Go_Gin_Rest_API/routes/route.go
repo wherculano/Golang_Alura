@@ -13,5 +13,6 @@ func HandlerRequests() {
 	req.POST("/students", controllers.CreateNewStudent)
 	req.GET("/students/:id", controllers.GetStudentById)
 	req.DELETE("/students/:id", controllers.DeleteStudent)
+	req.PATCH("/students/:id", controllers.EditStudent)
 	req.Run()
 }
