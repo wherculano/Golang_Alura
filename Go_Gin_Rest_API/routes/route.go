@@ -14,5 +14,6 @@ func HandlerRequests() {
 	req.GET("/students/:id", controllers.GetStudentById)
 	req.DELETE("/students/:id", controllers.DeleteStudent)
 	req.PATCH("/students/:id", controllers.EditStudent)
+	req.GET("/students/cpf/:cpf", controllers.GetStudentByCPF)
 	req.Run()
 }
