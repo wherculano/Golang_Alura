@@ -35,3 +35,5 @@
     - Struct, Database, GORM and Docker;
     - HTTP routes;
     - CRUD (Create, Retrieve, Update and Delete) 
+    - [Tests and Validations](https://cursos.alura.com.br/course/go-validacoes-testes-paginas-html)
+    - HTML + CSS using Gin
