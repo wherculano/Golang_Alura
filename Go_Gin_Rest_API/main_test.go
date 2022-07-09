@@ -4,9 +4,11 @@ import (
 	"Alura/Go_Gin_Rest_API/controllers"
 	"Alura/Go_Gin_Rest_API/database"
 	"Alura/Go_Gin_Rest_API/models"
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -70,4 +72,26 @@ func TestGetStudentByCPF(t *testing.T) {
 	resp := httptest.NewRecorder()
 	r.ServeHTTP(resp, req)
 	assert.Equal(t, http.StatusOK, resp.Code)
+}
+
+func TestGetStudentByID(t *testing.T) {
+	database.ConnectDB()
+	CreateMockStudent()
+	defer DeleteMockStudent()
+
+	r := SetupTestRoutes()
+	r.GET("/students/:id", controllers.GetStudentById)
+
+	endpoint := "/students/" + strconv.Itoa(ID)
+
+	req, _ := http.NewRequest("GET", endpoint, nil)
+	resp := httptest.NewRecorder()
+	r.ServeHTTP(resp, req)
+
+	var studentMock models.Student
+	json.Unmarshal(resp.Body.Bytes(), &studentMock)
+
+	assert.Equal(t, "Name Test", studentMock.Name)
+	assert.Equal(t, "12345678900", studentMock.CPF)
+	assert.Equal(t, "98765432", studentMock.RG)
 }
