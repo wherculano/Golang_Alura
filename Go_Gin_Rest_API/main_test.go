@@ -2,6 +2,8 @@ package main
 
 import (
 	"Alura/Go_Gin_Rest_API/controllers"
+	"Alura/Go_Gin_Rest_API/database"
+	"Alura/Go_Gin_Rest_API/models"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -11,9 +13,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var ID int
+
 func SetupTestRoutes() *gin.Engine {
+	gin.SetMode(gin.ReleaseMode) // less info on terminal about the test
 	routes := gin.Default()
 	return routes
+}
+
+func CreateMockStudent() {
+	student := models.Student{Name: "Name Test", CPF: "12345678900", RG: "98765432"}
+	database.DB.Create(&student)
+	ID = int(student.ID)
+}
+
+func DeleteMockStudent() {
+	var student models.Student
+	database.DB.Delete(&student, ID)
 }
 
 func TestStatusCodeGreeting(t *testing.T) {
@@ -28,4 +44,30 @@ func TestStatusCodeGreeting(t *testing.T) {
 	responseBody, _ := ioutil.ReadAll(resp.Body)
 	assert.Equal(t, mockResponse, string(responseBody))
 
+}
+
+func TestGetAllStudents(t *testing.T) {
+	database.ConnectDB()
+	CreateMockStudent()
+	defer DeleteMockStudent()
+
+	r := SetupTestRoutes()
+	r.GET("/students", controllers.GetAllStudents)
+	req, _ := http.NewRequest("GET", "/students", nil)
+	resp := httptest.NewRecorder()
+	r.ServeHTTP(resp, req)
+	assert.Equal(t, http.StatusOK, resp.Code)
+}
+
+func TestGetStudentByCPF(t *testing.T) {
+	database.ConnectDB()
+	CreateMockStudent()
+	defer DeleteMockStudent()
+
+	r := SetupTestRoutes()
+	r.GET("/students/cpf/:cpf", controllers.GetStudentByCPF)
+	req, _ := http.NewRequest("GET", "/students/cpf/12345678900", nil)
+	resp := httptest.NewRecorder()
+	r.ServeHTTP(resp, req)
+	assert.Equal(t, http.StatusOK, resp.Code)
 }
