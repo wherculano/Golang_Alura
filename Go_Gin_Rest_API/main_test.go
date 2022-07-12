@@ -4,6 +4,7 @@ import (
 	"Alura/Go_Gin_Rest_API/controllers"
 	"Alura/Go_Gin_Rest_API/database"
 	"Alura/Go_Gin_Rest_API/models"
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -107,4 +108,29 @@ func TestDeleteStudent(t *testing.T) {
 	resp := httptest.NewRecorder()
 	r.ServeHTTP(resp, req)
 	assert.Equal(t, http.StatusOK, resp.Code)
+}
+
+func TestEditAllStudentFields(t *testing.T) {
+	database.ConnectDB()
+	CreateMockStudent()
+	defer DeleteMockStudent()
+
+	r := SetupTestRoutes()
+	r.PATCH("/students/:id", controllers.EditStudent)
+
+	student := models.Student{Name: "Name test", CPF: "47123456789", RG: "123456700"}
+	studentToJson, _ := json.Marshal(student)
+
+	endpoint := "/students/" + strconv.Itoa(ID)
+	req, _ := http.NewRequest("PATCH", endpoint, bytes.NewBuffer(studentToJson))
+	resp := httptest.NewRecorder()
+	r.ServeHTTP(resp, req)
+
+	assert.Equal(t, http.StatusOK, resp.Code)
+	
+	var updatedStudying models.Student
+	json.Unmarshal(resp.Body.Bytes(), &updatedStudying)
+	assert.Equal(t, "47123456789", updatedStudying.CPF)
+	assert.Equal(t, "123456700", updatedStudying.RG)
+	assert.Equal(t, "Name test", updatedStudying.Name)
 }
