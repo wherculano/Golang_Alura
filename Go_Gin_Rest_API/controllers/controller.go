@@ -94,3 +94,9 @@ func GetStudentByCPF(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, student)
 }
+
+func GetIndexPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"message": "Hello World",
+	})
+}
